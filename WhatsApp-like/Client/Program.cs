@@ -51,7 +51,7 @@ namespace ChatClient
             while ((bytesRead = clientSocket.Receive(buffer)) > 0)
             {
                 var message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                Console.WriteLine($"Received: {message}");
+                Console.WriteLine(message);
             }
         }
     }

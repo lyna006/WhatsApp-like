@@ -9,7 +9,8 @@ namespace ChatServer
 {
     class Program
     {
-        private static List<Socket> _clients = new List<Socket>();
+        private static List<Client> _clients = new List<Client>();
+        private static int _nextClientId = 1; 
 
         static void Main(string[] args)
         {
@@ -28,13 +29,20 @@ namespace ChatServer
             while (true)
             {
                 var clientSocket = serverSocket.Accept();
-                _clients.Add(clientSocket);
                 Task.Run(() => HandleClient(clientSocket));
             }
         }
 
         private static void HandleClient(Socket clientSocket)
         {
+            var clientId = _nextClientId++;
+            var client = new Client(clientSocket, clientId);
+            _clients.Add(client);
+
+            // Enviar ID al cliente
+            var idMessage = Encoding.UTF8.GetBytes($"Your ID is: {clientId}");
+            clientSocket.Send(idMessage);
+
             try
             {
                 var buffer = new byte[1024];
@@ -43,8 +51,8 @@ namespace ChatServer
                 while ((bytesRead = clientSocket.Receive(buffer)) > 0)
                 {
                     var message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                    Console.WriteLine($"Received: {message}");
-                    BroadcastMessage(message, clientSocket);
+                    Console.WriteLine($"Received from client {clientId}: {message}");
+                    BroadcastMessage(message, client);
                 }
             }
             catch (Exception ex)
@@ -53,21 +61,33 @@ namespace ChatServer
             }
             finally
             {
-                _clients.Remove(clientSocket);
+                _clients.Remove(client);
                 clientSocket.Close();
             }
         }
 
-        private static void BroadcastMessage(string message, Socket sender)
+        private static void BroadcastMessage(string message, Client sender)
         {
-            var buffer = Encoding.UTF8.GetBytes(message);
+            var buffer = Encoding.UTF8.GetBytes($"Client {sender.Id}: {message}");
             foreach (var client in _clients)
             {
                 if (client != sender)
                 {
-                    client.Send(buffer);
+                    client.Socket.Send(buffer);
                 }
             }
+        }
+    }
+
+    public class Client
+    {
+        public Socket Socket { get; set; }
+        public int Id { get; set; }
+
+        public Client(Socket socket, int id)
+        {
+            Socket = socket;
+            Id = id;
         }
     }
 }
