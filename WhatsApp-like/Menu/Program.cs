@@ -7,6 +7,11 @@ namespace ChatMenu
     {
         static void Main(string[] args)
         {
+            // Start the server
+            var serverPort = "5000";
+            StartServer(serverPort);
+
+            // Show menu
             while (true)
             {
                 Console.WriteLine("1. Add Client");
@@ -16,11 +21,12 @@ namespace ChatMenu
 
                 if (input == "1")
                 {
-                    Console.Write("Enter server IP: ");
+                    Console.Write("Enter server IP (default 127.0.0.1): ");
                     var serverIp = Console.ReadLine();
-
-                    Console.Write("Enter server port: ");
-                    var serverPort = Console.ReadLine();
+                    if (string.IsNullOrEmpty(serverIp))
+                    {
+                        serverIp = "127.0.0.1";
+                    }
 
                     OpenClient(serverIp, serverPort);
                 }
@@ -35,12 +41,25 @@ namespace ChatMenu
             }
         }
 
+        static void StartServer(string port)
+        {
+            var processInfo = new ProcessStartInfo
+            {
+                FileName = "dotnet",
+                Arguments = $"run --project ../Server {port}",
+                UseShellExecute = true
+            };
+
+            Process.Start(processInfo);
+            Console.WriteLine($"Server started on port {port}");
+        }
+
         static void OpenClient(string serverIp, string serverPort)
         {
             var processInfo = new ProcessStartInfo
             {
                 FileName = "dotnet",
-                Arguments = $"run --project ../ChatClient {serverIp} {serverPort}",
+                Arguments = $"run --project ../Client {serverIp} {serverPort}",
                 UseShellExecute = true
             };
 
