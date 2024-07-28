@@ -10,7 +10,7 @@ namespace ChatServer
     class Program
     {
         private static List<Client> _clients = new List<Client>();
-        private static int _nextClientId = 1; 
+        private static int _nextClientId = 1;
 
         static void Main(string[] args)
         {
@@ -39,7 +39,6 @@ namespace ChatServer
             var client = new Client(clientSocket, clientId);
             _clients.Add(client);
 
-            // Enviar ID al cliente
             var idMessage = Encoding.UTF8.GetBytes($"Your ID is: {clientId}");
             clientSocket.Send(idMessage);
 
@@ -52,7 +51,7 @@ namespace ChatServer
                 {
                     var message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                     Console.WriteLine($"Received from client {clientId}: {message}");
-                    BroadcastMessage(message, client);
+                    HandleMessage(message, client);
                 }
             }
             catch (Exception ex)
@@ -63,6 +62,32 @@ namespace ChatServer
             {
                 _clients.Remove(client);
                 clientSocket.Close();
+            }
+        }
+
+        private static void HandleMessage(string message, Client sender)
+        {
+            // Parse message for private communication
+            if (message.StartsWith("/private"))
+            {
+                var parts = message.Split(new char[] { ' ' }, 3);
+                if (parts.Length >= 3 && int.TryParse(parts[1], out int recipientId))
+                {
+                    var recipient = _clients.Find(c => c.Id == recipientId);
+                    if (recipient != null)
+                    {
+                        var privateMessage = $"Private message from Client {sender.Id}: {parts[2]}";
+                        var buffer = Encoding.UTF8.GetBytes(privateMessage);
+                        recipient.Socket.Send(buffer);
+                        return;
+                    }
+                }
+                var errorMessage = Encoding.UTF8.GetBytes("Invalid private message format or recipient not found.");
+                sender.Socket.Send(errorMessage);
+            }
+            else
+            {
+                BroadcastMessage(message, sender);
             }
         }
 
