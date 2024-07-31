@@ -23,14 +23,25 @@ namespace ChatClient
             {
                 clientSocket.Connect(endPoint);
                 Console.WriteLine("Connected to server.");
+		Console.WriteLine("For private messages use the following format: /private <recipientId> <message>");
 
                 Task.Run(() => ReceiveMessages(clientSocket));
 
                 while (true)
                 {
                     var message = Console.ReadLine();
-                    var buffer = Encoding.UTF8.GetBytes(message);
-                    clientSocket.Send(buffer);
+
+                    if (message.StartsWith("/private"))
+                    {
+                        // /private <recipientId> <message>
+                        var buffer = Encoding.UTF8.GetBytes(message);
+                        clientSocket.Send(buffer);
+                    }
+                    else
+                    {
+                        var buffer = Encoding.UTF8.GetBytes(message);
+                        clientSocket.Send(buffer);
+                    }
                 }
             }
             catch (Exception ex)
@@ -51,7 +62,7 @@ namespace ChatClient
             while ((bytesRead = clientSocket.Receive(buffer)) > 0)
             {
                 var message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                Console.WriteLine($"Received: {message}");
+                Console.WriteLine(message);
             }
         }
     }

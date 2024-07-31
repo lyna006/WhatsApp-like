@@ -1,0 +1,15 @@
+C:\TareaDatos\WhatsApp-like\Client\bin\Debug\net8.0\Client.exe
+C:\TareaDatos\WhatsApp-like\Client\bin\Debug\net8.0\Client.deps.json
+C:\TareaDatos\WhatsApp-like\Client\bin\Debug\net8.0\Client.runtimeconfig.json
+C:\TareaDatos\WhatsApp-like\Client\bin\Debug\net8.0\Client.dll
+C:\TareaDatos\WhatsApp-like\Client\bin\Debug\net8.0\Client.pdb
+C:\TareaDatos\WhatsApp-like\Client\obj\Debug\net8.0\Client.GeneratedMSBuildEditorConfig.editorconfig
+C:\TareaDatos\WhatsApp-like\Client\obj\Debug\net8.0\Client.AssemblyInfoInputs.cache
+C:\TareaDatos\WhatsApp-like\Client\obj\Debug\net8.0\Client.AssemblyInfo.cs
+C:\TareaDatos\WhatsApp-like\Client\obj\Debug\net8.0\Client.csproj.CoreCompileInputs.cache
+C:\TareaDatos\WhatsApp-like\Client\obj\Debug\net8.0\Client.sourcelink.json
+C:\TareaDatos\WhatsApp-like\Client\obj\Debug\net8.0\Client.dll
+C:\TareaDatos\WhatsApp-like\Client\obj\Debug\net8.0\refint\Client.dll
+C:\TareaDatos\WhatsApp-like\Client\obj\Debug\net8.0\Client.pdb
+C:\TareaDatos\WhatsApp-like\Client\obj\Debug\net8.0\Client.genruntimeconfig.cache
+C:\TareaDatos\WhatsApp-like\Client\obj\Debug\net8.0\ref\Client.dll

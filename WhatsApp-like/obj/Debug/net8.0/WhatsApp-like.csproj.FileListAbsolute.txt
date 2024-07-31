@@ -1,0 +1,5 @@
+C:\TareaDatos\WhatsApp-like\obj\Debug\net8.0\WhatsApp-like.GeneratedMSBuildEditorConfig.editorconfig
+C:\TareaDatos\WhatsApp-like\obj\Debug\net8.0\WhatsApp-like.AssemblyInfoInputs.cache
+C:\TareaDatos\WhatsApp-like\obj\Debug\net8.0\WhatsApp-like.AssemblyInfo.cs
+C:\TareaDatos\WhatsApp-like\obj\Debug\net8.0\WhatsApp-like.csproj.CoreCompileInputs.cache
+C:\TareaDatos\WhatsApp-like\obj\Debug\net8.0\WhatsApp-like.sourcelink.json
